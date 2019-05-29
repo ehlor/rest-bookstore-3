@@ -186,7 +186,7 @@ public class BookEndpoint {
                     response.setResponse("Failure. Bad request or a review with this title already exist");
             }
             catch(Exception e){
-                restTemplate.put("http://"+NOTES+":5000/notes"+request.getReview().getTitle(), jNode, String.class);
+                restTemplate.put("http://"+NOTES+":5000/notes/"+request.getReview().getTitle(), jNode, String.class);
                 response.setResponse("Success. Book updated");
             }
         } else
