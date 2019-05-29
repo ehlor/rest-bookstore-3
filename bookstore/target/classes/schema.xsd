@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://www.example.org/bookstore"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.example.org/bookstore">
+
+    <xs:element name="getBooksRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="embedded" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getBooksResponse">
+        <xs:complexType>
+            <xs:choice minOccurs="1">
+                <xs:element name="book" type="tns:bookWithRCType" maxOccurs="unbounded"/>
+                <xs:element name="bookEmbedded" type="tns:bookFullType" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:idType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="book" type="tns:bookWithRCType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="book" type="tns:bookType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="response" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:idType"/>
+                <xs:element name="book" type="tns:bookType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="response" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="patchBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:idType"/>
+                <xs:element name="book" type="tns:bookOptionalType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="patchBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="response" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:idType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="response" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getBookReviewsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:idType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getBookReviewsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reviews" type="tns:reviewType" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addReviewRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:idType"/>
+                <xs:element name="review" type="tns:reviewType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addReviewResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="response" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:complexType name="bookType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int" minOccurs="0"/>
+            <xs:element name="author" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="genre" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="bookOptionalType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int" minOccurs="0"/>
+            <xs:element name="author" type="xs:string" minOccurs="0"/>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="genre" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="bookWithRCType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="author" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="genre" type="xs:string"/>
+            <xs:element name="reviewCount" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="bookFullType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="author" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="genre" type="xs:string"/>
+            <xs:element name="reviewCount" type="xs:int"/>
+            <xs:choice minOccurs="1">
+                <xs:element name="reviews" type="tns:reviewType" maxOccurs="unbounded"/>
+                <xs:element name="reviews_error" type="xs:string"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reviewType">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="author" type="xs:string"/>
+            <xs:element name="comment" type="xs:string"/>
+            <xs:element name="date" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="idType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
