@@ -3,7 +3,7 @@
 Web serviso paleidimas Docker aplinkoje:
 1. Klonuojam git repozitoriją
 ```
-git clone https://github.com/theelo/rest-bookstore-2.git
+git clone https://github.com/theelo/rest-bookstore-3.git
 ```
 2. Paleidžiam konteinerius
 ```
