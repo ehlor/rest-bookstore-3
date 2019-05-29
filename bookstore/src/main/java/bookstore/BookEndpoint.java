@@ -165,24 +165,30 @@ public class BookEndpoint {
             jNode.put("author", request.getReview().getAuthor());
             jNode.put("comment", request.getReview().getComment());
             jNode.put("expiration", request.getReview().getDate());
-            ResponseEntity<String> resp = restTemplate.postForEntity("http://"+NOTES+":5000/notes", jNode,
-                    String.class);
-            if (resp.getStatusCodeValue() == 201) {
-                // get title
-                JsonNode root = mapper.readTree(resp.getBody());
-                JsonNode title = root.path("data").path("title");
-                // update book
-                for (Book book : bookList) {
-                    if (book.getId() == oid) {
-                        book.addToReviewList(title.asText());
-                        book.setReviewCount(book.getReviewCount() + 1);
-                        bookAccess.saveBookList(bookList);
-                        break;
+            try{
+                ResponseEntity<String> resp = restTemplate.postForEntity("http://"+NOTES+":5000/notes", jNode,
+                        String.class);
+                if (resp.getStatusCodeValue() == 201) {
+                    // get title
+                    JsonNode root = mapper.readTree(resp.getBody());
+                    JsonNode title = root.path("data").path("title");
+                    // update book
+                    for (Book book : bookList) {
+                        if (book.getId() == oid) {
+                            book.addToReviewList(title.asText());
+                            book.setReviewCount(book.getReviewCount() + 1);
+                            bookAccess.saveBookList(bookList);
+                            break;
+                        }
                     }
-                }
-                response.setResponse("Success. Book review added");
-            } else
-                response.setResponse("Failure. Bad request or a review with this title already exist");
+                    response.setResponse("Success. Book review added");
+                } else
+                    response.setResponse("Failure. Bad request or a review with this title already exist");
+            }
+            catch(Exception e){
+                restTemplate.put("http://"+NOTES+":5000/notes"+request.getReview().getTitle(), jNode, String.class);
+                response.setResponse("Success. Book updated");
+            }
         } else
             response.setResponse("Failure. Could not find book");
         return response;
