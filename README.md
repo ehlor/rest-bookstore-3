@@ -11,9 +11,11 @@ docker-compose up
 ```
 
 **WSDL failas:** /soap/books/bookstore.wsdl
+
 SOAP užklausas siųsti į /soap/books
 
 Užklausų pvz.:
+
 **Gauti visas knygas su embedded komentarais**
 ```
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://www.example.org/bookstore">
