@@ -59,7 +59,7 @@ Užklausų pvz.:
    </soapenv:Body>
 </soapenv:Envelope>
 ```
-***Gauti 9000 knygą***
+**Gauti 9000 knygą**
 ```
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://www.example.org/bookstore">
    <soapenv:Header/>
