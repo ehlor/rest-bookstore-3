@@ -9,42 +9,62 @@ git clone https://github.com/theelo/rest-bookstore-2.git
 ```
 docker-compose up
 ```
-Funkcijos:
 
-**GET**
+**WSDL failas:** /soap/books/bookstore.wsdl
+SOAP užklausas siųsti į /soap/books
 
-Gauti visas knygas ```/books```
-
-Gauti knygą pagal id ```/books/{id}```
-
-(2 lab.) Gauti visus knygos atsiliepimus ```/books/{id}/reviews```
-
-(2 lab.) Gauti visas knygas su atsiliepimais ```/books?embedded=reviews```
-
-**POST**
-
-Patalpinti knygą ```/books```
-
-**PUT**
-
-Redaguoti knygą ```/books/{id}```
-
-**PATCH**
-
-Redaguoti knygos dalį ```/books/{id}```
-
-(2 lab.) Įkelti knygos atsiliepimą ```/books/{id}/reviews``` 
-Pvz.: 
+Užklausų pvz.:
+**Gauti visas knygas su embedded komentarais**
 ```
-{"title" : "Nauja knyga - naujas nusivylimas",
- "author":"Antanas V.",
- "comment":"Bla bla bla bla bla bla bla.",
- "expiration":"2019-04-01"}
- ```
-
-**DELETE**
-
-Ištrinti knygą ```/books/{id}```
-
-
-**Resurso atributai**: id, name, author, genre.
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://www.example.org/bookstore">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <book:getBooksRequest>
+         <book:embedded>reviews</book:embedded>
+      </book:getBooksRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+**Pridėti komentarą į 12340 knygą**
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://www.example.org/bookstore">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <book:addReviewRequest>
+         <book:id>12340</book:id>
+         <book:review>
+            <book:title>Pavadinimas</book:title>
+            <book:author>Autorius</book:author>
+            <book:comment>Komentaras</book:comment>
+            <book:date>2015</book:date>
+         </book:review>
+      </book:addReviewRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+**Pakeisti 9000 knygos pavadinimą ir žanrą**
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://www.example.org/bookstore">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <book:patchBookRequest>
+         <book:id>9000</book:id>
+         <book:book>
+            <book:name>Naujas pavadinimas</book:name>
+            <book:genre>Naujas zanras</book:genre>
+         </book:book>
+      </book:patchBookRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+***Gauti 9000 knygą***
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:book="http://www.example.org/bookstore">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <book:getBookRequest>
+         <book:id>9000</book:id>
+      </book:getBookRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
